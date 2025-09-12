@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rafif Faqih - Personal Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #0a1a2f;
+      color: #ffffff;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 5%;
+      background-color: #0a1a2f;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #1a304e;
+      transition: background 0.4s, padding 0.4s;
+    }
+
+    header.scrolled {
+      background-color: rgba(10, 26, 47, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 5%;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #fff;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: fadeInLogo 1s forwards 0.3s;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 3rem;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.1rem;
+      position: relative;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeInNav 0.6s forwards;
+    }
+
+    nav a:nth-child(1) { animation-delay: 0.4s; }
+    nav a:nth-child(2) { animation-delay: 0.5s; }
+    nav a:nth-child(3) { animation-delay: 0.6s; }
+    nav a:nth-child(4) { animation-delay: 0.7s; }
+    nav a:nth-child(5) { animation-delay: 0.8s; }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: #4a90e2;
+      transition: width 0.3s;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8rem 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s forwards 0.5s;
+    }
+
+    .hero-text h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, #4a90e2, #7ab0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-text h2 {
+      font-size: 2rem;
+      color: #4a90e2;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-text p {
+      color: #ddd;
+      margin-bottom: 2rem;
+      max-width: 600px;
+    }
+
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-right: 1.5rem;
+    }
+
+    .btn-primary {
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: #4a90e2;
+      border: 2px solid #4a90e2;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+    }
+
+    .hero-img {
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 5px solid #1a304e;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      animation: zoomIn 1s forwards 0.8s;
+    }
+
+    .hero-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* About Section */
+    .about {
+      padding: 6rem 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s, transform 0.8s;
+    }
+
+    .about.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      text-align: center;
+      color: #4a90e2;
+      opacity: 0;
+      animation: fadeIn 1s forwards 0.3s;
+    }
+
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+
+    .card {
+      background-color: #1a304e;
+      border-radius: 12px;
+      padding: 2rem;
+      width: 350px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: transform 0.4s, opacity 0.4s, box-shadow 0.4s;
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 15px 30px rgba(74, 144, 226, 0.2);
+    }
+
+    .card h3 {
+      font-size: 1.8rem;
+      color: #4a90e2;
+      margin-bottom: 1rem;
+    }
+
+    .card ul {
+      list-style: none;
+      color: #ddd;
+    }
+
+    .card ul li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #2a456a;
+      opacity: 0;
+      animation: fadeInList 0.4s forwards;
+    }
+
+    .card ul li:nth-child(1) { animation-delay: 0.2s; }
+    .card ul li:nth-child(2) { animation-delay: 0.3s; }
+    .card ul li:nth-child(3) { animation-delay: 0.4s; }
+    .card ul li:nth-child(4) { animation-delay: 0.5s; }
+    .card ul li:nth-child(5) { animation-delay: 0.6s; }
+    .card ul li:nth-child(6) { animation-delay: 0.7s; }
+
+    .card ul li::before {
+      content: "✓";
+      color: #4a90e2;
+      margin-right: 0.5rem;
+    }
+
+    /* Contact Section */
+    .contact {
+      padding: 6rem 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s, transform 0.8s;
+    }
+
+    .contact.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .contact h2 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: #4a90e2;
+    }
+
+    .contact p {
+      color: #ddd;
+      max-width: 600px;
+      margin: 0 auto 3rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 1.2rem;
+      color: #ddd;
+      text-decoration: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: color 0.3s, transform 0.3s;
+    }
+
+    .contact-link.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .contact-link i {
+      color: #4a90e2;
+      font-size: 1.5rem;
+      transition: transform 0.3s;
+    }
+
+    .contact-link:hover i {
+      transform: scale(1.2);
+      color: #7ab0ff;
+    }
+
+    .contact-link:hover {
+      color: #4a90e2;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 3rem 5%;
+      margin-top: 5rem;
+      border-top: 1px solid #1a304e;
+      opacity: 0;
+      animation: fadeIn 1s forwards 0.3s;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+
+    .social-links a {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #4a90e2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.4s;
+      text-decoration: none;
+    }
+
+    .social-links a:hover {
+      background-color: #4a90e2;
+      color: white;
+      transform: translateY(-5px) scale(1.1);
+    }
+
+    /* Animations */
+    @keyframes fadeInLogo {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInNav {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes zoomIn {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes fadeInList {
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header id="header">
+    <div class="logo">Rafif</div>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-text">
+      <h1>Hi, I'm Rafif Faqihi</h1>
+      <h2>Programmer</h2>
+      <p>
+        Hold a Bachelor’s degree in Information Technology with hands-on experience in cybersecurity, including network traffic analysis, security policy implementation, and vulnerability assessments. Contributed to internal systems development and provided effective technical support. Skilled in Linux administration, web development, and security tools. Strong in problem-solving, teamwork, and adaptability within dynamic environments.
+      </p>
+      <button class="btn btn-primary">Hire Me</button>
+      <button class="btn btn-outline">Let's Talk</button>
+    </div>
+    <div class="hero-img">
+      <img src="raf.webp" alt="Rafif Faqihi" />
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about" id="about">
+    <h2 class="section-title">About Me</h2>
+    <div class="cards">
+      <!-- Skills Card -->
+      <div class="card">
+        <h3>Hard Skills</h3>
+        <ul>
+          <li>Network Traffic Analysis</li>
+          <li>Vulnerability Assessment Tools</li>
+          <li>Cybersecurity Policy Implementation</li>
+          <li>Technical Support Troubleshooting</li>
+          <li>Web Development Technologies</li>
+          <li>Linux System Administration</li>
+          <li>Microsoft Office Suite</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Soft Skills</h3>
+        <ul>
+          <li>Problem-Solving</li>
+          <li>Critical Thinking</li>
+          <li>Effective Communication</li>
+          <li>Time Management</li>
+          <li>Collaboration and Teamwork</li>
+          <li>Flexibility and Adaptability</li>
+        </ul>
+      </div>
+
+      <!-- Projects Card -->
+      <div class="card">
+        <h3>Projects</h3>
+        <ul>
+          <li>AirLine Website</li>
+          <li>Bank Website</li>
+          <li>Univercity Website(Mutdreb)</li>
+          <li>Portofolio Website</li>
+        </ul>
+      </div>
+
+      <!-- Courses Card -->
+      <div class="card">
+        <h3>Courses</h3>
+        <ul>
+          <li>Linux System Track | Satr - Tuwaiq Academy | 2024</li>
+          <li>Web Development Bootcamp | Google Developer Student Clubs | 2023</li>
+          <li>Cybersecurity| Aja Space IT Community Initiative</li>
+          <li>Power BI | Microsoft Learning | 2025</li>
+          <li>Certified Associate Penetration Tester(CAPT)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact" id="contact">
+    <h2>Contact Me</h2>
+    <p>I'm always open to new opportunities and collaborations. Feel free to reach out!</p>
+    <div class="contact-links">
+      <a href="raf802209@gmail.com" class="contact-link">
+        <i class="fas fa-envelope"></i> Mail
+      </a>
+      <a href="https://linkedin.com/in/rafif-faqihi" target="_blank" class="contact-link">
+        <i class="fab fa-linkedin"></i> LinkedIn
+      </a>
+      <a href="https://wa.me/966503138515" target="_blank" class="contact-link">
+        <i class="fab fa-whatsapp"></i> WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="social-links">
+      <a href="https://linkedin.com/in/rafif-faqihi"><i class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/raf67026-mac"><i class="fab fa-github"></i></a>
+    </div>
+    <p style="margin-top: 1rem; color: #aaa;">&copy; 2024 Rafif Faqih. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript for Scroll Animations -->
+  <script>
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('header');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Reveal elements on scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.about, .contact, .card, .contact-link').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
